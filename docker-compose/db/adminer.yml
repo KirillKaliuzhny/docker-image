@@ -1,0 +1,11 @@
+services:
+  adminer:
+    image: adminer
+    container_name: ${PROJECT_NAME}_adminer
+    restart: ${COMPOSE_RESTART_POLICY}
+    depends_on:
+      - db
+    ports:
+      - '3300:8080'
+    networks:
+      - default

@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: ${PROJECT_NAME}_db
+    restart: ${COMPOSE_RESTART_POLICY}
+    environment:
+      - ACCEPT_EULA=1
+      - MSSQL_SA_PASSWORD=${DB_USER_PASSWORD}
+      - MSSQL_PID=${MSSQL_PID}
+    networks:
+      - default

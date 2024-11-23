@@ -1,0 +1,10 @@
+services:
+  php-fpm:
+    build:
+      context: www/backend/
+      dockerfile: build/Dockerfile.php
+    container_name: ${PROJECT_NAME}-php-fpm
+    ports:
+      - 8000:8000
+    
+  
