@@ -3,9 +3,15 @@ services:
     image: nginx
     container_name: ${PROJECT_NAME}_nginx
     restart: ${COMPOSE_RESTART_POLICY}
+    volumes:
+      - ../www/backend/code:/var/www/backend
+      - ../config/nginx/conf.d/:/etc/nginx/conf.d/
+      - ../config/nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - '80:80'
       - '443:443'
+    environment:
+     - TZ=${TIME_ZONE}
     networks:
       - default
     

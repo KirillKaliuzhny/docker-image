@@ -8,6 +8,7 @@ services:
       - MARIADB_PASSWORD=${DB_USER_PASSWORD}
       - MARIADB_DATABASE=${DB_NAME}
       - MARIADB_ROOT_PASSWORD=${DB_USER_ROOT_PASSWORD}
+      - TZ=${TIME_ZONE}
     networks:
       - default
     

@@ -7,5 +7,10 @@ services:
       - ACCEPT_EULA=1
       - MSSQL_SA_PASSWORD=${DB_USER_PASSWORD}
       - MSSQL_PID=${MSSQL_PID}
+      - TZ=${TIME_ZONE} 
+    volumes:
+      - ./database:/var/opt/mssql
     networks:
       - default
+volumes:
+  database:

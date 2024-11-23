@@ -3,6 +3,8 @@ services:
     image: adminer
     container_name: ${PROJECT_NAME}_adminer
     restart: ${COMPOSE_RESTART_POLICY}
+    environment:
+      - TZ: ${TIME_ZONE}
     depends_on:
       - db
     ports:

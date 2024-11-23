@@ -1,4 +1,6 @@
-FROM 8.3-fpm
+FROM php:8.3-fpm
+
+ARG UID GID
 
 RUN apt-get update && apt-get install -y \
     libpng-dev \
@@ -15,24 +17,35 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Установка Freestyle Datasource для работы с MS SQL
-RUN apt-get update && apt-get install -y \
-    freetds-dev \  
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Установка расширений для PDO (кросс-соблюдающий драйвер для работы с базами данных)
-# Установка расширения для PDO, чтобы работать с SQL Server
-RUN pecl install pdo_sqlsrv
+# Для MSSQL
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get -y install msodbcsql18 unixodbc-dev \
+    && pecl install sqlsrv \
+    && pecl install pdo_sqlsrv \
+    && docker-php-ext-enable sqlsrv pdo_sqlsrv \
+    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/backend
-COPY code/ .
+COPY code .
 
-RUN composer install --no-interaction
-RUN cp .env.example .env
+# Создание laravel
+RUN composer create-project --prefer-dist laravel/laravel .
+# Необходимые модули для laravel mssql
+RUN composer require doctrine/dbal
+
+RUN chown -R "${UID}":"${GID}" .
+
+# RUN composer install --no-interaction
+# RUN cp .env.example .env
+
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+USER www
 
 EXPOSE 9000
 

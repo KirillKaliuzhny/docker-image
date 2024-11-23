@@ -1,10 +1,26 @@
 services:
   php-fpm:
     build:
-      context: www/backend/
+      context: ../www/backend/
       dockerfile: build/Dockerfile.php
+      args:
+        UID: ${UID}
+        GID: ${GID}
     container_name: ${PROJECT_NAME}-php-fpm
+    user: "${UID}:${GID}"
+    environment:
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: db
+      DB_PORT: ${DB_INTERNAL_PORT}
+      DB_DATABASE: ${DB_NAME}
+      DB_USERNAME: ${DB_USER_NAME}
+      DB_PASSWORD: ${DB_USER_PASSWORD}
+      TZ: ${TIME_ZONE} 
     ports:
       - 8000:8000
-    
-  
+    depends_on:
+      - db
+    volumes:
+      - ../www/backend/code:/var/www/backend
+    networks:
+      - default
