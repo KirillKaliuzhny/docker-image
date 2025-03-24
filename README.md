@@ -5,6 +5,7 @@
  - Работа с laravel 11.x версии на основе php:8.3
     - Поддержка MariaDB
     - Поддержка Microsoft SQL Server
+    - Поддержка Postgres
 ## Настройка
 ### Microsoft SQL Server Laravel
 Переменные для подключения уже прокинуты в контейнер, их нужно лишь указать:  
