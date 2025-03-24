@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libzip-dev \
+    #postgres libpq-dev \
     git \
     unzip \
     libxml2-dev \
@@ -14,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd zip xml \
     && docker-php-ext-install pdo pdo_mysql \
+    #postgres
+    # && docker-php-ext-install pdo pdo_pgsql pgsql \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
