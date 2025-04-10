@@ -1,0 +1,6 @@
+services:
+  db:
+    ports:
+      - '${DB_EXTERNAL_PORT}:${DB_INTERNAL_PORT}'
+    environment:
+      - MSSQL_TCP_PORT=${DB_INTERNAL_PORT}
