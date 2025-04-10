@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: ${PROJECT_NAME}_db
+    restart: ${COMPOSE_RESTART_POLICY}
+    environment:
+      POSTGRES_PASSWORD: ${DB_USER_PASSWORD}
+      POSTGRES_USER: ${DB_NAME}
+    volumes:
+      - ./database:/var/lib/postgresql/data
