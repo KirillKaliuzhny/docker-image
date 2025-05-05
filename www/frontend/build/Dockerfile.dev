@@ -1,0 +1,12 @@
+ARG NODE_VERSION
+
+FROM node:${NODE_VERSION}
+
+WORKDIR /var/www/frontend
+COPY code .
+
+# RUN npm install
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
